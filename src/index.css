@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-head: rgba(255, 255, 255, 0.9);
+  --color-head2: rgba(255, 255, 255, 0.7);
+  --color-desc: rgba(255, 255, 255, 0.4);
+  --color-logo-bg: rgba(168, 168, 168, 0.05);
+  --color-logo-bg-hover: rgba(168, 168, 168, 0.08);
+  --color-body-bg: #1b1b1b;
+  --color-card-bg: color-mix(in oklab, #1b1b1b 100%, rgb(180, 180, 180) 5%);
+  --color-card-bg-hover: color-mix(
+    in oklab,
+    #1b1b1b 100%,
+    rgb(180, 180, 180) 10%
+  );
+  --color-nav-bg: #181818;
+  --color-main: #f5004f;
+  --color-main-hover: #ff0e5b;
+  --color-main-clear: rgba(245, 0, 78, 0.1);
+  --color-main-clear-hover: rgba(245, 0, 78, 0.15);
+  --font-mregular: "mregular";
+  --font-mmedium: "mmedium";
+  --font-msemibold: "msemibold";
+  --font-mbold: "mbold";
+  --spacing-dashboard-padding: 20px;
+  --spacing-dashboard-padding-x: 0px 20px;
+
+  --color-pie-light: color-mix(in oklab, #1b1b1b 100%, rgb(180, 180, 180) 15%);
+  --color-pie1: #4d55cc;
+  --color-pie2: #e53888;
+  --color-pie3: #eb5b00;
+  --color-pie4: #b771e5;
+
+  --breakpoint-screen1200: 1200px;
+  --breakpoint-screen500: 500px;
+  --breakpoint-screen800: 800px;
+}
+
+@font-face {
+  font-family: mbold;
+  src: url("./assets/fonts/OnService-Bold.ttf");
+}
+@font-face {
+  font-family: mmedium;
+  src: url("./assets/fonts/OnService-Medium.ttf");
+}
+@font-face {
+  font-family: mregular;
+  src: url("./assets/fonts/OnService-Regular.ttf");
+}
+@font-face {
+  font-family: msemibold;
+  src: url("./assets/fonts/OnService-SemiBold.ttf");
+}
+body {
+  width: 100%;
+  font-feature-settings: "case";
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+}
+#root {
+  width: 100%;
+}
+input {
+  color: var(--color-head);
+  padding: 0px 15px;
+  border-radius: 8px;
+  height: 40px;
+  font-family: mmedium;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: background-color 0.2s;
+}
+input:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+input:focus {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+button {
+  font-size: 15px;
+  padding: 0 15px;
+  height: 34px;
+  cursor: pointer;
+  background-color: var(--color-main);
+  color: var(--color-head);
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: var(--color-main-hover);
+}
+.s_button {
+  background-color: var(--color-main-clear);
+  color: var(--color-main);
+}
+.s_button:hover {
+  background-color: var(--color-main-clear-hover);
+}
+.disabled_button {
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.2);
+}
