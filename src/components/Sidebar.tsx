@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -12,8 +12,10 @@ export default function Sidebar() {
   return (
     <>
       <nav
-        className={`bg-nav-bg  sticky top-0 h-[100dvh] w-[300px] max-screen1200:w-[250px] flex flex-col gap-10 shrink-0 max-screen1200:fixed z-10  transition-transform max-screen1200:${
-          show ? "translate-none" : "-translate-x-full"
+        className={`bg-nav-bg  sticky top-0 h-[100dvh] w-[300px] max-screen1200:w-[250px] flex flex-col gap-10 shrink-0 max-screen1200:fixed z-10  transition-transform ${
+          show
+            ? "max-screen1200:translate-none"
+            : "max-screen1200:-translate-x-full"
         }`}
       >
         <div className="p-dashboard-padding flex justify-center">

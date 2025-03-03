@@ -1,3 +1,6 @@
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 export default function MovieCard(props: {
   id: number;
   image: string;
@@ -5,22 +8,56 @@ export default function MovieCard(props: {
   name_eng: string;
   year: string;
 }) {
+  function delete_movie() {
+    console.log("NO");
+    if (confirm("ნამდვილად გსურს ფილმის წაშლა?")) {
+      axios.post(
+        "https://movies.evacuatorgeorgia.in/movie_delete",
+        { movie_id: props.id },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+    }
+  }
   return (
     <div className="flex flex-col rounded-md bg-card-bg h-[280px] min-w-[320px] max-w-[370px] p-2 flex-1">
-      <div className="h-[150px] w-full bg-card-bg-hover rounded-md overflow-hidden">
-        <img src={props.image} className="h-full w-full object-cover" />
-      </div>
-      <p className=" text-head2 mt-1 text-nowrap overflow-hidden text-ellipsis w-full">
+      <Link
+        to={"https://movies.evacuatorgeorgia.in/pages/watch?id=" + props.id}
+        className="h-[150px] w-full bg-card-bg-hover rounded-md overflow-hidden"
+      >
+        <img
+          loading="lazy"
+          src={props.image}
+          className="h-full w-full object-cover max-h-[300px] max-w-[400px]"
+        />
+      </Link>
+      <Link
+        to={"https://movies.evacuatorgeorgia.in/pages/watch?id=" + props.id}
+        className=" text-head2 mt-1 text-nowrap overflow-hidden text-ellipsis w-full"
+      >
         {props.name}
-      </p>
-      <p className=" text-desc text-nowrap overflow-hidden text-ellipsis w-full">
+      </Link>
+      <Link
+        to={"https://movies.evacuatorgeorgia.in/pages/watch?id=" + props.id}
+        className=" text-desc text-nowrap overflow-hidden text-ellipsis w-full"
+      >
         {props.name_eng}
-      </p>
+      </Link>
       <p className=" text-desc text-nowrap overflow-hidden text-ellipsis w-full">
         {props.year}
       </p>
       <div className="flex gap-2 items-center mt-auto justify-end">
-        <button className="s_button p-0 h-[40px] aspect-square">
+        <Link
+          to={
+            "https://movies.evacuatorgeorgia.in/pages/updatemovie?id=" +
+            props.id
+          }
+          className="s_button p-0 h-[38px] aspect-square flex justify-center items-center rounded-md transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="22"
@@ -32,8 +69,11 @@ export default function MovieCard(props: {
               d="M15.748 2.947a2 2 0 0 1 2.828 0l2.475 2.475a2 2 0 0 1 0 2.829L9.158 20.144l-6.38 1.076l1.077-6.38L15.748 2.947Zm-.229 3.057l2.475 2.475l1.643-1.643l-2.475-2.474l-1.643 1.642Zm1.06 3.89l-2.474-2.475l-8.384 8.384l-.503 2.977l2.977-.502l8.385-8.385Z"
             />
           </svg>
-        </button>
-        <button className="p-0 h-[40px] aspect-square">
+        </Link>
+        <button
+          onClick={() => delete_movie()}
+          className="p-[0_!important] h-[38px_!important] aspect-square flex justify-center items-center rounded-md transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="22"

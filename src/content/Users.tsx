@@ -1,39 +1,77 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { ServerContext } from "../App";
+
 export default function Users() {
+  const [users, setUsers] = useState<TsetUsers>({ rows: null, users: [] });
+  const [search, setSearch] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const [isPending, setIsPending] = useState(true);
+
+  const ServerData = useContext(ServerContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await axios.get(
+          ServerData.server_starter + "users/get.php"
+        );
+        if (response.data.status == 100) {
+          let movies_data = response.data;
+          setUsers({ rows: movies_data.nums_rows, users: movies_data.data });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsPending(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredUsers = users.users.filter(
+    (user) =>
+      user.nickname.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase()) ||
+      user.id.toString().includes(search.toLowerCase())
+  );
   return (
     <main className="  flex-1 overflow-hidden">
       <p className="text-head tracking-wider text-[18px] mb-1">
         <span className="text-main">ანგარიშების</span> მართვა
       </p>
-      <p className="text-desc mb-4 tracking-wider">სულ (251)</p>
+      <p className="text-desc mb-4 tracking-wider">
+        სულ ({users.rows == null ? "..." : users.rows})
+      </p>
 
-      <div className="flex items-center justify-start mt-10">
-        <input className=" w-[300px]" type="text" placeholder="ძებნა" />
+      <div className="flex items-center justify-start mt-10 max-screen500:flex-col-reverse gap-3">
+        <input
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+          className=" w-[250px]"
+          type="text"
+          placeholder="ძებნა"
+        />{" "}
+        <button
+          onClick={() => setShowAll((state) => !state)}
+          className="s_button"
+        >
+          {showAll ? "ნაკლების ჩვენება" : "ყველას ჩვენება"}
+        </button>
       </div>
       <div className="flex flex-col gap-2 mt-5 w-full">
-        <UserCard
-          id={41}
-          nickname={"ლუკიტო"}
-          email={"luka1172@mail.ru"}
-          create_date={"2021-11-12"}
-        />
-        <UserCard
-          id={43}
-          nickname={"ლომი"}
-          email={"farav@mail.ru"}
-          create_date={"2021-11-12"}
-        />
-        <UserCard
-          id={46}
-          nickname={"გიუშა"}
-          email={"giola@mail.ru"}
-          create_date={"2021-11-12"}
-        />
-        <UserCard
-          id={417}
-          nickname={"ნიკიტა"}
-          email={"niko@mail.ru"}
-          create_date={"2021-11-12"}
-        />
+        {isPending
+          ? "იტვირთება..."
+          : filteredUsers
+              .slice(0, showAll ? filteredUsers.length : 10)
+              .map((user: Tuser) => (
+                <UserCard
+                  id={user.id}
+                  nickname={user.nickname}
+                  email={user.email}
+                  create_date={user.create_date}
+                />
+              ))}
       </div>
     </main>
   );
@@ -57,3 +95,14 @@ function UserCard(props: {
     </div>
   );
 }
+type TsetUsers = {
+  rows: null | number;
+  users: Tuser[];
+};
+type Tuser = {
+  id: number;
+  nickname: string;
+  email: string;
+  create_date: string;
+  coins: string;
+};
